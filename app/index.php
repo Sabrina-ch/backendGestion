@@ -4,7 +4,11 @@ ini_set('display_errors', 1);
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Factory\AppFactory;
+use Slim\Routing\RouteCollectorProxy;
+use Slim\Routing\RouteContext;
+
 
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/accesoDatos/accesoDatos.php';
@@ -19,7 +23,7 @@ require __DIR__ . '/controllers/usuariosController.php';
 
 $app = AppFactory::create();
 
-app->addErrorMiddleware(true,true,true);
+$app->addErrorMiddleware(true,true,true);
 
 $app->add(function (Request $request, RequestHandlerInterface $handler): Response {
     // $routeContext = RouteContext::fromRequest($request);
@@ -39,6 +43,10 @@ $app->add(function (Request $request, RequestHandlerInterface $handler): Respons
     return $response;
 });
 
+$app->group('/clientes', function (RouteCollectorProxy $group) {
+    $group->GET('/lista', \clienteController::class . ':retornarLista');
+    $group->GET('/id',\clienteController::class . ':retornarLista' )
+});
 
 
 

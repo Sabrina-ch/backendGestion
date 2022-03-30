@@ -15,6 +15,17 @@ class Cliente{
 
     }
 
+    public static function traerListaClientes(){
+
+          $objetoDatos = AccesoDatos::obtenerInstancia();
+          $consulta= $objetoDatos->consultaRealizar("SELECT *FROM clientes");
+          $consulta->execute();
+        
+
+         return $consulta->fetchAll(PDO::FETCH_OBJ);
+     
+    }
+
     public static function editarCliente(){
 
     }
